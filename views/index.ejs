@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat Rooms | Index</title>
+
+    <link rel="stylesheet" href="/css/pages/index.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+</head>
+<body>
+
+    <% if (message != '') { %> <script type="text/javascript"> alert('<%= message %>'); </script> <% } %>
+    
+    <main class="index">
+        <section class="index__center">
+
+            <div class="chat_creation">
+
+                <div class="chat_creation__counter"><span><%= chats.length %> <font>Chats</font></span></div>
+
+                <div class="chat_creation__create">
+                    <button type="button" onclick="create_chat()"><i class="fa-solid fa-plus-circle"></i>New Chat</button>
+
+                    <script type="text/javascript" src="/js/pages/index/chat_creation.js"></script>
+                </div>
+
+            </div>
+
+            <div class="chats">
+                <form action="/room" method="get">
+
+                    <div class="chats__form-list">
+
+                        <% if (chats.length > 0) { %>
+
+                            <% for (let ci = 0; ci < chats.length; ci++) { %>
+
+                                <div class="chat">
+                                    <div class="chat__number_identifier"><span><%= ci + 1 %></span></div>
+
+                                    <div class="chat__selector">
+                                        <label class="chat__selector-label" for="chat__selector-<%= ci + 1 %>">
+
+                                            <div class="chat__selector-label__text"><p>Select</p></div>
+
+                                            <div class="chat__selector-label__square"><div class="chat__selector-label__square-marked"></div></div>
+
+                                        </label>
+
+                                        <input type="radio" name="chat" id="chat__selector-<%= ci + 1 %>" value="<%= chats[ci].id %>">
+
+                                        <button type="button" onclick="delete_chat('<%= chats[ci].id %>')" class="chat__selector-delete"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+
+                            <% }; %>
+
+                        <% } else { %>
+
+                            <p class="chats_form-list__none"><i class="fa-solid fa-info-circle"></i>No Chats</p>
+
+                        <% } %>
+
+                    </div>
+
+                    <div class="join">
+
+                        <input type="text" name="username" id="usn" placeholder="username">
+
+                        <script type="text/javascript">
+
+                            document.getElementById('usn').addEventListener('keydown', (event) => { if (event.key === ' ') { event.preventDefault(); } });
+
+                        </script>
+
+                        <button type="submit">Join Chat Room</button>
+
+                    </div>
+
+                    <script type="text/javascript">
+
+                        const labels = document.querySelectorAll('.chat__selector-label');
+                        const marked_boxes = document.querySelectorAll('.chat__selector-label__square-marked');
+
+                        for (let li = 0; li < labels.length; li++) 
+                        {
+                            labels[li].addEventListener('click', (event) => 
+                            {
+
+                                for (let lis = 0; lis < labels.length; lis++) 
+                                {
+                                    if ((lis + 1) != (li + 1)) 
+                                    {
+
+                                        marked_boxes[lis].style.display = 'none';
+
+                                    }
+                                }
+
+                                marked_boxes[li].style.display = 'block';
+
+                            });
+                        }
+
+                    </script>
+
+                </form>
+            </div>
+
+        </section>
+    </main>
+
+</body>
+</html>

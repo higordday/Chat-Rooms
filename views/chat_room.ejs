@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chat Rooms | Chat</title>
+
+    <link rel="stylesheet" href="/css/pages/chat_room.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.4/socket.io.js" integrity="sha512-dDCXSKyPaEikucluA6BrNqHngOGByBEhxwwlP+GvVt90XOe0BpmZEdnIJi849R2q9rG23Yzxhiy4uKCdnrJySw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+
+    <main class="chat">
+        <section class="chat__center">
+
+            <div class="back"><a href="/" onclick="leave_chat()"><i class="fa-solid fa-arrow-left"></i>Back</a></div>
+
+            <div class="messages">
+                <div class="messages__main">
+                    
+                    <% messages.forEach( (message) => { %>
+
+                        <div class="message"><p><span><%= message.username %>:</span> <%= message.message %></p></div>
+
+                    <% }); %>
+
+                </div>
+            </div>
+
+            <div class="send">
+
+                <textarea name="message" id="message_id" placeholder="Message..."></textarea>
+                <button type="button" onclick="send_message()"><i class="fa-solid fa-paper-plane"></i></button>
+
+                <script type="text/javascript">
+
+                    const sio = io('localhost:8000');
+
+                    const current_chat_id = '<%= current_chat_id %>';
+
+                    sio.emit('join_chat', current_chat_id);
+
+                    function leave_chat() { sio.emit('leave_chat', current_chat_id); }
+
+                    function display_message(username, message) 
+                    {
+
+                        const messages_area = document.querySelector('.messages__main');
+
+                        const message_div = document.createElement('div');
+                        message_div.className = 'message';
+
+                        message_div.innerHTML = `<p><span>${username}:</span> ${message}</p>`;
+
+                        messages_area.appendChild(message_div);
+
+                        document.getElementById('message_id').value = '';
+
+                    }
+
+                    sio.on('broadcast', (data) => 
+                    { 
+
+                        cusername = '<%= current_username %>';
+
+                        if (data.username != cusername) { display_message(data.username, data.message); }
+                    
+                    });
+
+                    function send_message() 
+                    {
+
+                        const message_content = document.getElementById('message_id').value;
+
+                        if ((!message_content) || (message_content == null) || (typeof message_content == 'undefined')) { return; }
+
+                        const message_content_no_spaces = message_content.replace(/\s/g, '');
+
+                        if ((!message_content_no_spaces) || (message_content_no_spaces == null) || (typeof message_content_no_spaces == 'undefined')) { return; }
+
+                        sio.emit('send', { username: '<%= current_username %>', chat: '<%= current_chat_id %>', message: message_content });
+
+                        display_message('<%= current_username %>', message_content);
+
+                    }
+
+                </script>
+
+            </div>
+
+        </section>
+    </main>
+    
+</body>
+</html>

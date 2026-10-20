@@ -1,0 +1,151 @@
+
+@import url('../main.css');
+
+.chat 
+{
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.chat__center 
+{
+
+    padding: 20px;
+    width: 500px;
+    background-color: var(--s-background);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+}
+
+.back 
+{
+
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--t-background);
+
+}
+
+.back a 
+{
+
+    color: var(--ghost-text-color);
+    font-size: 9pt;
+
+}
+
+.back a i 
+{
+
+    opacity: 0.4;
+    margin-right: 10px;
+
+}
+
+.messages 
+{
+
+    width: 100%;
+    height: 340px;
+    background-color: var(--f-background);
+    margin-top: 30px;
+
+}
+
+.messages__main 
+{
+
+    padding: 15px;
+    max-height: 320px;
+    overflow: auto;
+
+}
+
+.messages__main::-webkit-scrollbar { width: 10px; }
+
+.messages__main::-webkit-scrollbar-track { background-color: var(--f-background); }
+
+.messages__main::-webkit-scrollbar-thumb { background-color: var(--t-background); }
+
+.message { margin: 10px 0px; }
+
+.message p 
+{
+
+    padding: 10px 20px;
+    background-color: var(--s-background);
+    border-radius: 20px;
+    color: var(--muted-text-color);
+    font-size: 9pt;
+
+}
+
+.message p span { opacity: 0.4; }
+
+.send 
+{
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+
+}
+
+.send textarea, .send button 
+{
+
+    outline: none;
+    border: none;
+    background-color: var(--f-background);
+    font-size: 9pt;
+
+}
+
+.send textarea 
+{
+
+    padding: 10px 0px 0px 15px;
+    width: 300px;
+    height: 45px;
+    resize: vertical;
+
+}
+
+.send button 
+{
+
+    width: 60px;
+    height: 40px;
+    border-radius: 20px;
+    transition: 0.4s;
+    cursor: pointer;
+
+}
+
+.send button i 
+{
+
+    opacity: 0.4;
+    font-size: 9pt;
+
+}
+
+.send button:hover { background-color: var(--t-background); }
+
+@media screen and (max-width: 550px) 
+{
+
+    .chat__center 
+    {
+
+        width: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+
+    }
+
+}
