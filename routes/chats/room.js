@@ -43,6 +43,13 @@ global.router.get('/room', (request, response) =>
     function proceed() 
     {
 
+        if ((username.length < 3) || (username.length > 16)) 
+        {
+
+            request.flash('message', 'The Username must be between 3 and 16 characters long'); response.redirect('/'); return;
+
+        }
+
         if (/^[a-zA-Z0-9_]+$/.test(username) == false) 
         {
 
